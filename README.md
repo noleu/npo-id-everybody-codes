@@ -3,6 +3,8 @@
 Een repository om te laten zien hoe jij code schrijft en over code denkt.
 Een startpunt voor een goed gesprek over ons vak!
 
+Deze repository is een fork van het oorspronkelijke project van [Infi](https://github.com/infi-nl/everybody-codes), met wat wijzigingen specifiek voor het NPO-id team.
+
 ## Context
 
 Mogelijk ben je hier gekomen omdat je een tweede gesprek hebt met ons.
@@ -28,17 +30,14 @@ _Het heeft wél iets weg van een test_ (en dat is ook de bedoeling!), maar er zi
 ## De Opdracht
 
 De opdracht bestaat uit drie onderdelen waarin je gebruik maakt van de dataset die je vindt in [data/cameras-defb.csv](data/cameras-defb.csv).
-Je mag de opdracht doen in een taal en tech stack naar keuze (wij zijn zelf voornamelijk bekend met C#, JavaScript, TypeScript, PHP, Python, Java).
+Je mag de opdracht doen in een taal en tech stack naar keuze (wij zijn zelf voornamelijk bekend met C#, JavaScript, TypeScript, Python, Java).
 
 ## CLI
 
 Maak een programma of script dat de gebruiker in staat stelt om via de CLI te zoeken op een deel van een camera _name_, bijvoorbeeld:
 
 ```sh
-# PHP via de CLI aanroepen
-php search.php --name Neude
-
-# Of als je .NET Core hebt gebruikt
+# Als je .NET Core hebt gebruikt
 dotnet Search --name Neude
 
 # Etc.
@@ -69,7 +68,7 @@ Bedenk wat je graag wilt laten zien en waar je het graag in het technische gespr
 
 Het eerste onderdeel van de front-end bestaat uit het ophalen van de data uit de API.
 Toon de data verspreid over vijf kolommen op de homepagina van de applicatie.
-_Optioneel_ kun je [code/index.html](https://github.com/infi-nl/everybody-codes/blob/main/code/index.html) als startpunt gebruiken.
+_Optioneel_ kun je `code/index.html` als startpunt gebruiken.
 De spreiding van de data moet gebeuren volgens de onderstaande regels en op basis van het nummer van de camera:
 
 1. Kolom met camera's met nummers tot 600
@@ -81,7 +80,7 @@ De spreiding van de data moet gebeuren volgens de onderstaande regels en op basi
 
 Het tweede onderdeel bestaat uit het tonen van de camera's als markers op een map.
 Toon _alle_ camera's als markers op een kaart van Utrecht, boven de tabel met camera-data.
-De optionele opzet in [code/index.html](https://github.com/infi-nl/everybody-codes/blob/main/code/index.html) geeft een indicatie van hoe dit eruit moet zien.
+De optionele opzet in `code/index.html` geeft een indicatie van hoe dit eruit moet zien.
 
 Je mag een Map-tool naar eigen keuze gebruiken.
 Heb je geen idee of geen voorkeur kun je goed de [quick start van Leaflet gebruiken](https://leafletjs.com/examples/quick-start/).
