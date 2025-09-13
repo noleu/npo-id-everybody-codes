@@ -12,3 +12,7 @@ The test cover the FilterService in its basic functionality.
 ## Vibe coding declaration
 The code for filling the table was mostly vibe coded. 
 Along the way I used ChatGPT and GitHub Copilot to help me get started, with the UI part of the task.
+
+## Additional Ideas
+I would have liked to highlight the marker when an element of the list is hovered over or clicked. 
+I choose not to do it, as this would have been fully vibe coded, which would defeat the purpose of the exercise.
