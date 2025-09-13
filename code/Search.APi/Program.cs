@@ -4,11 +4,20 @@ using Search.Service;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IDatatReader, CsvDataReader>();
 builder.Services.AddSingleton<IFilterService, FilterService>();
+builder.Services.AddCors(options =>
+    {
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -19,7 +28,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// app.UseHttpsRedirection();
+app.UseCors();
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 
 app.MapGet("/cameras", (IFilterService filterService) => filterService.NoFilter())
     .WithName("GetAllCameras")

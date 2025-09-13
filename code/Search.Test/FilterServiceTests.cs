@@ -9,9 +9,9 @@ public class FilterServiceTests
     {
         private readonly IEnumerable<Camera> _cameras = new List<Camera>
         {
-            new ("Camera1", 0, 0),
-            new ("Camera2", 0, 0),
-            new ("AnotherCamera", 0, 0)
+            new ("0", "Camera1", 0, 0, 0),
+            new ("1","Camera2", 0, 0,0),
+            new ("2", "AnotherCamera", 0, 0,0)
         };
         
         public IEnumerable<Camera> Read()

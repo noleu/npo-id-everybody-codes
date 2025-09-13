@@ -45,6 +45,7 @@
     #camerasContainer {
       margin-top: 16px;
       display: flex;
+      align-items: flex-start;   
       width: 100%;
       gap: 16px;
       justify-content: space-between;
@@ -54,19 +55,35 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 0.8rem;
+        flex: 1;
     }
 
     #camerasContainer table th {
       background: #f2f2f2;
       padding: 8px;
       text-align: left;
+      vertical-align: top;
+      line-height: 1.4;
     }
 
-    #camerasContainer table tr:first-child {
-      font-size: 1.5rem;
-      font-weight: bold;
+    #camerasContainer table td {
+      border-bottom: 1px solid #ddd;
+      padding: 8px;
+      vertical-align: top;
+      line-height: 1.4;
+    }
+    #camerasContainer table tbody tr:last-child td {
+        border-bottom: none;
+    }
+    
+    #camerasContainer table thead tr {
+        font-weight: bold;
     }
 
+    #camerasContainer table thead tr:first-child {
+        font-size: 1.5rem;
+    }
+    
     #map {
       width: 100%;
       height: 400px;
@@ -77,11 +94,17 @@
       color: #999;
     }
   </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
 </head>
 
 <body>
   <h1>Security camera's Utrecht</h1>
-  <div id="mapid"></div>
+<!--  <div id="mapid"></div>-->
   <main>
     <div id="map"><span>TODO: Map komt hier.</span></div>
     <div id="camerasContainer">
@@ -158,6 +181,63 @@
     source:
     <a href="https://data.overheid.nl/dataset/utrecht-cameraregister-utrecht">https://data.overheid.nl/dataset/utrecht-cameraregister-utrecht</a>
   </div>
+    <script>
+        let cameraData = [];
+
+        async function loadCameras() {
+            const res = await fetch("http://localhost:5000/cameras");
+            cameraData = await res.json();
+        }
+        function addCamerasToMap() {
+            console.log('Adding cameras to map:', cameraData.length);
+            cameraData.forEach(camera => {
+                console.log('Adding camera:', camera);
+                if (camera.latitude && camera.longitude) {
+                    const marker = L.marker([camera.latitude, camera.longitude]).addTo(map);
+                    marker.bindPopup(`<b>${camera.id}</b> <b>${camera.name}</b>`);
+                } else {
+                    console.warn('Invalid coordinates for camera:', camera);
+                }
+            });
+        }
+        
+        function addCamerasToTables() {
+            cameraData.forEach(camera => {
+                let tableId;
+                if (camera.number < 600) {
+                    tableId = 'cameras-0-until-600';
+                } else if (camera.number < 700) {
+                    tableId = 'cameras-600-until-700';
+                } else if (camera.number < 800) {
+                    tableId = 'cameras-700-until-800';
+                } else {
+                    tableId = 'cameras-rest';
+                }
+                const tableBody = document.querySelector(`#${tableId} tbody`);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${camera.id}</td>
+                    <td>${camera.name}</td>
+                    <td>${camera.latitude || 'N/A'}</td>
+                    <td>${camera.longitude || 'N/A'}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        var map = L.map('map').setView([52.0914, 5.1115], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        loadCameras().then(
+            _ => {
+                addCamerasToMap();
+                addCamerasToTables();
+            }
+        );
+    </script>
 </body>
 
 </html>

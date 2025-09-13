@@ -18,15 +18,18 @@ public class CsvDataReader : IDatatReader
         csv.ReadHeader();
         while (csv.Read())
         {
-            if (!csv.GetField("Camera")!.ToString().StartsWith("UTR"))
+            if (!csv.GetField("Camera")!.StartsWith("UTR"))
             {
                 continue; // Skip this record if the condition is not met
             }
 
             var record = new Camera(
-                csv.GetField<string>("Camera") ?? string.Empty,
+                csv.GetField<string>("Camera")?[..10] ?? string.Empty,
+                csv.GetField("Camera")?[11..]  ?? string.Empty, 
                 csv.GetField<decimal>("Latitude"),
-                csv.GetField<decimal>("Longitude"));
+                csv.GetField<decimal>("Longitude"),
+                int.TryParse(csv.GetField("Camera")?.Substring(7,3), out var number) ? number : 0);
+            
                     
             cameras.Add(record);
         }
